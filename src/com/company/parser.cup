@@ -1,0 +1,117 @@
+/* Simple +/-/* expression language; parser evaluates constant expressions on the fly*/
+/**
+ *  Package and Import Specifications
+ */
+import java_cup.runtime.*;
+
+/**
+ *  Usercode Components
+ */
+parser code {:
+    // Connect this parser to a scanner!
+    Scanner s;
+    Parser(Scanner s){ this.s=s; }
+:}
+
+/* define how to connect to the scanner! */
+scan with {: return s.next_token(); :};
+
+action code {:
+
+
+        class Functions{
+            int num=0;
+
+            public String SetStringInParameters(String str)
+            {
+                String out,tmp;
+
+                if(str == null || str.isEmpty()){return "";}
+
+
+                out="String "+str;
+                int index = out.indexOf(",");
+
+                while (index >= 0) {
+
+                    out=out.substring(0,index)+",String "+out.substring(index+1,out.length());
+                    index = out.indexOf(",", index + 1);
+
+                }
+                return out;
+            }
+        }
+
+        Functions fun=new Functions();
+
+
+
+
+:}
+
+
+/**
+ *  Symbol Lists
+ */
+
+/* Terminals (tokens returned by the scanner). */
+terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,LBRACKET,COMMA,PAR_RBRACKET;
+terminal            IDENTIFIER;        // our scanner provides numbers as integers
+
+/*  Non terminals */
+non terminal            expr;
+non terminal            function_decl;
+non terminal            function_call;
+non terminal            parameters;
+non terminal            parameters_decl;
+non terminal            statement;
+non terminal            programme;
+non terminal             function_calls;
+non terminal            main_body;
+non terminal            parameters_call;
+/**
+ *  The Grammar Rules
+ */
+
+
+programme ::=function_decl:mb {:System.out.println("public class Main {\t\n"+mb+"\n"+"}");:};
+
+main_body   ::= function_decl:fd function_calls:fcs   {:RESULT="\tpublic static void main(String[] args) {\n"+fcs+"\n"+"\t}\n"+fd;:};
+
+function_calls ::= function_call:fc function_calls:fcs {:RESULT="\t\tSystem.out.println("+fc+");\n"+fcs;:}
+                    |function_call:fc                  {:RESULT="\t\tSystem.out.println("+fc+");\n";:}
+                    ;
+
+
+
+
+function_decl ::= function_decl:fd  IDENTIFIER:id LPAREN   parameters_decl:p   statement:in RBRACKET {:RESULT=fd+"\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
+                                                                                                                        "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
+             | IDENTIFIER:id LPAREN  parameters_decl:p  statement:in RBRACKET                       {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
+                                                                                                                         "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
+             ;
+
+
+
+
+parameters_decl ::= parameters_decl:pd COMMA IDENTIFIER:id PAR_RBRACKET    {:RESULT=pd+","+id;:}
+                |IDENTIFIER:id PAR_RBRACKET                                {:RESULT=id;:}
+                |PAR_RBRACKET
+                |IDENTIFIER:id                                              {:RESULT=id;:}
+                ;
+
+parameters_call  ::= parameters_call:pc COMMA  statement:e   {:RESULT=pc+","+e;:}
+                    |
+                    ;
+
+
+function_call ::=IDENTIFIER:id LPAREN parameters_call:p RPAREN {:RESULT=id+"("+p+")";:};
+
+
+
+statement ::= statement:e PLUS IDENTIFIER:id             {:RESULT=id+"+"+e;:}
+              |IDENTIFIER:id                             {:RESULT=id;:}
+              |STRING:str                                {:RESULT=str;:}
+              |function_call:fc                          {:RESULT=fc;:}
+              ;
+

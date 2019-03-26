@@ -1,0 +1,12 @@
+name()  {
+        "John"
+    }
+
+surname()   {
+    "Doe"
+}
+
+fullname(first_name,k){
+    first_name + sep + last_name
+}
+
