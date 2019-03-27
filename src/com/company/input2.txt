@@ -1,16 +1,21 @@
-name()  {
+    name() {
         "John"
     }
 
-    surname() {
-        "Doe"
+    repeat(x) {
+        x + x
     }
 
-    fullname(first_name, sep, last_name) {
-        first_name
+    cond_repeat(c, x) {
+        if (c prefix "yes")
+            if("yes" prefix c)
+                repeat(x)
+            else
+                x
+        else
+            x
     }
 
-    name(l,k,l,l)
-
-
+    cond_repeat(ok(), name())
+    cond_repeat("no", "Jane")
 

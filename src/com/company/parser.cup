@@ -55,7 +55,7 @@ action code {:
  */
 
 /* Terminals (tokens returned by the scanner). */
-terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,LBRACKET,COMMA,PAR_RBRACKET,IF,ELSE;
+terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,LBRACKET,COMMA,PAR_RBRACKET,IF,ELSE,PREFIX,SUFFIX;
 terminal            IDENTIFIER;        // our scanner provides numbers as integers
 
 /*  Non terminals */
@@ -71,6 +71,8 @@ non terminal             function_calls;
 non terminal            main_body;
 non terminal            parameters_call;
 non terminal            object;
+non terminal            if_statement;
+non terminal            conditional_statement;
 /**
  *  The Grammar Rules
  */
@@ -91,8 +93,8 @@ function_decls ::= function_decls:fds function_decl:fd                          
                     ;
 
 
-function_decl ::=  IDENTIFIER:id LPAREN  parameters_call:p PAR_RBRACKET statement:in  RBRACKET                      {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
-                                                                                                                                            "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
+function_decl ::=  IDENTIFIER:id LPAREN  parameters_call:p PAR_RBRACKET expr:in  RBRACKET                      {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
+                                                                                                                                            "{\n"+"\t\t"+"return "+in+";"+"\n"+"\t}\n";:}
 
 
                    ;
@@ -107,8 +109,21 @@ parameters_call  ::= parameters_call:pc COMMA  statement:e   {:RESULT=pc+","+e;:
 
 
 
-if_statement ::=
+if_statement ::=IF LPAREN conditional_statement:cs RPAREN expr:e1 ELSE expr:e2  {:RESULT="("+"("+cs+")"+"?"+"("+e1+")"+":"+"("+e2+")"+")";:};
 
+conditional_statement ::= statement:s1 PREFIX statement:s2 {:RESULT=s1+".startsWith("+s2+")";:}
+                        |statement:s1 SUFFIX statement:s2 {:RESULT=s1+".endsWith("+s2+")";:}
+                        |if_statement:is                    {:RESULT=is;:}
+                        |
+                        ;
+
+
+
+
+
+expr ::= statement:st                                   {:RESULT=st;:}
+       | if_statement:is                              {:RESULT=is;:}
+       ;
 
 
 statement    ::=statement:s PLUS object:o              {:RESULT=s+"+"+o;:}

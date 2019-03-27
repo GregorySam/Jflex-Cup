@@ -82,6 +82,8 @@ string = [\"][[^\\\"]|\\.]*[\"]
 ","       { return symbol(sym.COMMA); }
 "if"     { return symbol(sym.IF); }
 "else"   { return symbol(sym.ELSE); }
+"prefix" { return symbol(sym.PREFIX); }
+"suffix" { return symbol(sym.SUFFIX); }
 
 {identifier} { return symbol(sym.IDENTIFIER, new String(yytext())); }
 
