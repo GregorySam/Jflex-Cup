@@ -26,6 +26,8 @@ action code {:
             {
                 String out,tmp;
 
+                str=str.substring(0, str.indexOf(")"));
+
                 if(str == null || str.isEmpty()){return "";}
 
 
@@ -55,7 +57,7 @@ action code {:
  */
 
 /* Terminals (tokens returned by the scanner). */
-terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,COMMA,PAR_RBRACKET,IF,ELSE,PREFIX,SUFFIX;
+terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,COMMA,IF,ELSE,PREFIX,SUFFIX,PARAMETERS_DECL;
 terminal            IDENTIFIER;        // our scanner provides numbers as integers
 
 /*  Non terminals */
@@ -94,20 +96,22 @@ function_decls ::= function_decls:fds function_decl:fd                          
                    ;
 
 
-function_decl ::=  IDENTIFIER:id LPAREN  parameters_call:p PAR_RBRACKET expr:in  RBRACKET                      {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
+function_decl ::=  IDENTIFIER:id LPAREN  PARAMETERS_DECL:pd  expr:in  RBRACKET                      {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)pd)+")"+
                                                                                                                                             "{\n"+"\t\t"+"return "+in+";"+"\n"+"\t}\n";:}
-                    ;
-//parameters_decl ::=para
+                   |IDENTIFIER:id LPAREN  RPAREN RBRACKET expr:in  RBRACKET                                        {:RESULT="\tpublic static String "+id+"("+")"+"{\n"+"\t\t"+"return "+in+";"+"\n"+"\t}\n";:}
+                   ;
 
 
 
-function_call ::=IDENTIFIER:id LPAREN parameters_call:p RPAREN {:RESULT=id+"("+p+")";:};
+function_call ::=IDENTIFIER:id LPAREN parameters_call:p RPAREN  {:RESULT=id+"("+p+")";:}
+                 |IDENTIFIER:id LPAREN  RPAREN                  {:RESULT=id+"("+")";:}
+                 ;
+
 
 
 
 parameters_call  ::= parameters_call:pc COMMA  statement:e   {:RESULT=pc+","+e;:}
                     |statement:e                              {:RESULT=e;:}
-                    |                                         {:RESULT="";:}
                     ;
 
 
@@ -118,7 +122,6 @@ if_statement ::=IF conditional_statement:cs RPAREN expr:e1 ELSE expr:e2  {:RESUL
 conditional_statement ::= statement:s1 PREFIX statement:s2 {:RESULT="("+s1+")"+".startsWith("+s2+")";:}
                         |statement:s1 SUFFIX statement:s2 {:RESULT="("+s1+")"+".endsWith("+s2+")";:}
                         |if_statement:is                    {:RESULT=is;:}
-                        |                                   {:RESULT="";:}
                         ;
 
 
