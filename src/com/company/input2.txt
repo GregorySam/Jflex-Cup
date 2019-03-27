@@ -8,14 +8,12 @@
 
     cond_repeat(c, x) {
         if (c prefix "yes")
-            if("yes" prefix c)
+            if(ok(l,l("ok")) prefix c)
                 repeat(x)
             else
-                x
         else
             x
     }
 
-    cond_repeat(ok(), name())
+    cond_repeat("yes", name())
     cond_repeat("no", "Jane")
-

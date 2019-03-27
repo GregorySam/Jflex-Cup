@@ -22,22 +22,22 @@ class Scanner implements java_cup.runtime.Scanner {
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
    * ZZ_LEXSTATE[l+1] is the state in the DFA for the lexical state l
-   * at the beginning of a line
+   *                  at the beginning of a line
    * l is of the form l = 2*k, k a non negative integer
    */
-  private static final int[] ZZ_LEXSTATE = {
-          0, 0
+  private static final int ZZ_LEXSTATE[] = { 
+     0, 0
   };
 
   /** 
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\5\1\3\1\2\1\0\1\3\1\1\16\5\4\0\1\13\1\0"+
+    "\11\5\1\3\1\2\1\0\1\3\1\1\16\5\4\0\1\12\1\0"+
     "\1\6\1\0\1\4\3\0\1\7\1\10\1\0\1\14\1\15\3\0"+
     "\12\5\7\0\32\4\1\0\1\0\2\0\1\4\1\0\4\4\1\20"+
     "\1\17\2\4\1\16\2\4\1\21\3\4\1\23\1\4\1\24\1\22"+
-    "\1\4\1\26\2\4\1\25\2\4\1\11\1\0\1\12\1\0\41\5"+
+    "\1\4\1\26\2\4\1\25\2\4\1\13\1\0\1\11\1\0\41\5"+
     "\2\0\4\4\4\0\1\4\2\0\1\5\7\0\1\4\4\0\1\4"+
     "\5\0\27\4\1\0\37\4\1\0\u01ca\4\4\0\14\4\16\0\5\4"+
     "\7\0\1\4\1\0\1\4\21\0\160\5\5\4\1\0\2\4\2\0"+
@@ -206,11 +206,12 @@ class Scanner implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\2\2\1\3\1\1\1\4\1\5\1\6"+
-    "\1\7\1\10\1\11\4\3\1\0\1\12\1\13\1\0"+
-    "\1\14\6\3\1\15\4\3\1\16\1\17";
+    "\1\7\1\10\4\3\1\0\1\11\1\0\1\12\4\3"+
+    "\3\13\3\3\1\0\1\14\2\3\1\14\2\3\1\15"+
+    "\1\16";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[34];
+    int [] result = new int[38];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -236,13 +237,13 @@ class Scanner implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\27\0\56\0\27\0\105\0\134\0\27\0\163"+
-    "\0\27\0\27\0\27\0\27\0\212\0\241\0\270\0\317"+
-    "\0\134\0\27\0\27\0\163\0\105\0\346\0\375\0\u0114"+
-    "\0\u012b\0\u0142\0\u0159\0\105\0\u0170\0\u0187\0\u019e\0\u01b5"+
-    "\0\105\0\105";
+    "\0\27\0\27\0\27\0\212\0\241\0\270\0\317\0\134"+
+    "\0\27\0\163\0\27\0\346\0\375\0\u0114\0\u012b\0\u0142"+
+    "\0\u0159\0\27\0\u0170\0\u0187\0\u019e\0\u0159\0\u01b5\0\u01cc"+
+    "\0\u01e3\0\u01fa\0\u0211\0\u0228\0\105\0\105";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[34];
+    int [] result = new int[38];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -266,23 +267,27 @@ class Scanner implements java_cup.runtime.Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\2\4\1\5\1\2\1\6\1\7\1\10"+
-    "\1\11\1\12\1\4\1\13\1\14\1\15\1\5\1\16"+
-    "\1\5\1\17\1\20\3\5\31\0\1\4\30\0\2\5"+
-    "\10\0\11\5\6\21\1\22\20\21\11\0\1\23\1\0"+
-    "\1\24\17\0\2\5\10\0\1\5\1\25\7\5\4\0"+
-    "\2\5\10\0\3\5\1\26\5\5\4\0\2\5\10\0"+
-    "\10\5\1\27\4\0\2\5\10\0\6\5\1\30\2\5"+
-    "\4\0\2\5\10\0\4\5\1\31\4\5\4\0\2\5"+
-    "\10\0\1\5\1\32\7\5\4\0\2\5\10\0\2\5"+
-    "\1\33\6\5\4\0\2\5\10\0\2\5\1\34\6\5"+
-    "\4\0\2\5\10\0\1\5\1\35\7\5\4\0\2\5"+
-    "\10\0\1\5\1\36\7\5\4\0\2\5\10\0\1\37"+
-    "\10\5\4\0\2\5\10\0\1\40\10\5\4\0\2\5"+
-    "\10\0\7\5\1\41\1\5\4\0\2\5\10\0\7\5"+
-    "\1\42\1\5";
+    "\1\11\1\4\1\2\1\12\1\13\1\14\1\5\1\15"+
+    "\1\5\1\16\1\17\3\5\31\0\1\4\30\0\2\5"+
+    "\10\0\11\5\6\20\1\21\20\20\12\0\1\22\1\23"+
+    "\17\0\2\5\10\0\1\5\1\24\7\5\4\0\2\5"+
+    "\10\0\3\5\1\25\5\5\4\0\2\5\10\0\10\5"+
+    "\1\26\4\0\2\5\10\0\6\5\1\27\2\5\1\0"+
+    "\1\30\2\31\2\5\1\0\1\32\2\0\1\31\3\0"+
+    "\11\5\4\0\2\5\10\0\4\5\1\33\4\5\4\0"+
+    "\2\5\10\0\1\5\1\34\7\5\4\0\2\5\10\0"+
+    "\2\5\1\35\6\5\1\0\1\36\1\31\1\36\3\0"+
+    "\1\32\2\0\1\36\15\0\3\36\3\0\1\32\2\0"+
+    "\1\36\20\0\2\5\10\0\2\5\1\37\6\5\4\0"+
+    "\2\5\10\0\1\5\1\40\7\5\4\0\2\5\10\0"+
+    "\1\5\1\41\7\5\1\0\3\42\2\5\4\0\1\42"+
+    "\3\0\11\5\4\0\2\5\10\0\1\43\10\5\4\0"+
+    "\2\5\10\0\1\44\10\5\1\0\3\42\6\0\1\42"+
+    "\20\0\2\5\10\0\7\5\1\45\1\5\4\0\2\5"+
+    "\10\0\7\5\1\46\1\5";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[460];
+    int [] result = new int[575];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -308,10 +313,10 @@ class Scanner implements java_cup.runtime.Scanner {
   private static final int ZZ_PUSHBACK_2BIG = 2;
 
   /* error messages for the codes above */
-  private static final String[] ZZ_ERROR_MSG = {
-          "Unknown internal scanner error",
-          "Error: could not match input",
-          "Error: pushback value was too large"
+  private static final String ZZ_ERROR_MSG[] = {
+    "Unknown internal scanner error",
+    "Error: could not match input",
+    "Error: pushback value was too large"
   };
 
   /**
@@ -320,11 +325,12 @@ class Scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\1\1\1\11\2\1\1\11\1\1\4\11"+
-    "\4\1\1\0\2\11\1\0\16\1";
+    "\1\0\1\11\1\1\1\11\2\1\1\11\1\1\3\11"+
+    "\4\1\1\0\1\11\1\0\1\11\6\1\1\11\3\1"+
+    "\1\0\10\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[34];
+    int [] result = new int[38];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -351,11 +357,9 @@ class Scanner implements java_cup.runtime.Scanner {
   /** the current lexical state */
   private int zzLexicalState = YYINITIAL;
 
-  /**
-   * this buffer contains the current text to be matched and is
-   * the source of the yytext() string
-   */
-  private char[] zzBuffer = new char[ZZ_BUFFERSIZE];
+  /** this buffer contains the current text to be matched and is
+      the source of the yytext() string */
+  private char zzBuffer[] = new char[ZZ_BUFFERSIZE];
 
   /** the textposition at the last accepting state */
   private int zzMarkedPos;
@@ -469,7 +473,7 @@ class Scanner implements java_cup.runtime.Scanner {
     /* is the buffer big enough? */
     if (zzCurrentPos >= zzBuffer.length - zzFinalHighSurrogate) {
       /* if not: blow it up */
-      char[] newBuffer = new char[zzBuffer.length * 2];
+      char newBuffer[] = new char[zzBuffer.length*2];
       System.arraycopy(zzBuffer, 0, newBuffer, 0, zzBuffer.length);
       zzBuffer = newBuffer;
       zzEndRead += zzFinalHighSurrogate;
@@ -799,63 +803,59 @@ class Scanner implements java_cup.runtime.Scanner {
           case 1: 
             { throw new Error("Illegal character <"+yytext()+">");
             }
-          case 16: break;
+          case 15: break;
           case 2: 
             { /* just skip what was found, do nothing */
             }
-          case 17: break;
+          case 16: break;
           case 3: 
-            { return symbol(sym.IDENTIFIER, yytext());
+            { return symbol(sym.IDENTIFIER, new String(yytext()));
             }
-          case 18: break;
+          case 17: break;
           case 4: 
             { return symbol(sym.LPAREN);
             }
-          case 19: break;
+          case 18: break;
           case 5: 
             { return symbol(sym.RPAREN);
             }
-          case 20: break;
+          case 19: break;
           case 6: 
-            { return symbol(sym.LBRACKET);
-            }
-          case 21: break;
-          case 7: 
             { return symbol(sym.RBRACKET);
             }
-          case 22: break;
-          case 8: 
+          case 20: break;
+          case 7: 
             { return symbol(sym.PLUS);
             }
-          case 23: break;
-          case 9: 
+          case 21: break;
+          case 8: 
             { return symbol(sym.COMMA);
             }
-          case 24: break;
-          case 10: 
-            { return symbol(sym.STRING, yytext());
+          case 22: break;
+          case 9: 
+            { return symbol(sym.STRING, new String(yytext()));
             }
-          case 25: break;
-          case 11: 
+          case 23: break;
+          case 10: 
             { return symbol(sym.PAR_RBRACKET);
             }
-          case 26: break;
-          case 12: 
+          case 24: break;
+          case 11: 
             { return symbol(sym.IF);
             }
-          case 27: break;
-          case 13: 
+          case 25: break;
+          case 12: 
             { return symbol(sym.ELSE);
             }
-          case 28: break;
-          case 14: 
+          case 26: break;
+          case 13: 
             { return symbol(sym.SUFFIX);
             }
-          case 29: break;
-          case 15: 
+          case 27: break;
+          case 14: 
             { return symbol(sym.PREFIX);
             }
-          case 30: break;
+          case 28: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

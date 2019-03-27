@@ -62,7 +62,8 @@ WhiteSpace     = {LineTerminator} | [ \t\f]
    one and nine followed by zero or more numbers between zero and nine
    or just a zero.  */
 
-identifier = [:jletter:] [:jletterdigit:]*
+identifier = [:jletter:][:jletterdigit:]*
+
 
 //parameter=   [ ]*{identifier}[ ]*
 //parameters = {parameter},({parameter},)*({parameter})*
@@ -75,15 +76,15 @@ string = [\"][[^\\\"]|\\.]*[\"]
 
 "("      { return symbol(sym.LPAREN); }
 ")"      { return symbol(sym.RPAREN); }
-"{"      { return symbol(sym.LBRACKET); }
 "}"      { return symbol(sym.RBRACKET); }
 [)][ ]*[{]    { return symbol(sym.PAR_RBRACKET); }
 "+"      { return symbol(sym.PLUS); }
 ","       { return symbol(sym.COMMA); }
-"if"     { return symbol(sym.IF); }
-"else"   { return symbol(sym.ELSE); }
+"if"({WhiteSpace})*[(] | "if"({WhiteSpace}) { return symbol(sym.IF); }
+"else"({WhiteSpace})*   { return symbol(sym.ELSE); }
 "prefix" { return symbol(sym.PREFIX); }
 "suffix" { return symbol(sym.SUFFIX); }
+
 
 {identifier} { return symbol(sym.IDENTIFIER, new String(yytext())); }
 

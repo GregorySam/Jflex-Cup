@@ -55,7 +55,7 @@ action code {:
  */
 
 /* Terminals (tokens returned by the scanner). */
-terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,LBRACKET,COMMA,PAR_RBRACKET,IF,ELSE,PREFIX,SUFFIX;
+terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,COMMA,PAR_RBRACKET,IF,ELSE,PREFIX,SUFFIX;
 terminal            IDENTIFIER;        // our scanner provides numbers as integers
 
 /*  Non terminals */
@@ -73,67 +73,71 @@ non terminal            parameters_call;
 non terminal            object;
 non terminal            if_statement;
 non terminal            conditional_statement;
+
 /**
  *  The Grammar Rules
  */
 
 
-programme ::=main_body:mb {:System.out.println("public class Main {\t\n"+mb+"\n"+"}");:};
+programme ::=main_body:mb {:System.out.println("public class Out {\t\n"+mb+"\n"+"}");:};
 
 main_body   ::= function_decls:fd function_calls:fcs   {:RESULT="\tpublic static void main(String[] args) {\n"+fcs+"\n"+"\t}\n"+fd;:};
 
 function_calls ::= function_call:fc function_calls:fcs {:RESULT="\t\tSystem.out.println("+fc+");\n"+fcs;:}
-                    |function_call:fc                  {:RESULT="\t\tSystem.out.println("+fc+");\n";:}
-                    ;
+                   |function_call:fc                  {:RESULT="\t\tSystem.out.println("+fc+");\n";:}
+                   ;
 
 
 
 function_decls ::= function_decls:fds function_decl:fd                                                               {:RESULT=(String)fd+(String)fds;:}
-                    |function_decl:fd                                                                               {:RESULT=(String)fd;:}
-                    ;
+                   |function_decl:fd                                                                               {:RESULT=(String)fd;:}
+                   ;
 
 
 function_decl ::=  IDENTIFIER:id LPAREN  parameters_call:p PAR_RBRACKET expr:in  RBRACKET                      {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
                                                                                                                                             "{\n"+"\t\t"+"return "+in+";"+"\n"+"\t}\n";:}
+                    ;
+//parameters_decl ::=para
 
 
-                   ;
+
 function_call ::=IDENTIFIER:id LPAREN parameters_call:p RPAREN {:RESULT=id+"("+p+")";:};
 
 
 
 parameters_call  ::= parameters_call:pc COMMA  statement:e   {:RESULT=pc+","+e;:}
                     |statement:e                              {:RESULT=e;:}
-                    |
+                    |                                         {:RESULT="";:}
                     ;
 
 
 
-if_statement ::=IF LPAREN conditional_statement:cs RPAREN expr:e1 ELSE expr:e2  {:RESULT="("+"("+cs+")"+"?"+"("+e1+")"+":"+"("+e2+")"+")";:};
+if_statement ::=IF conditional_statement:cs RPAREN expr:e1 ELSE expr:e2  {:RESULT="("+"("+cs+")"+"?"+"("+e1+")"+":"+"("+e2+")"+")";:};
 
-conditional_statement ::= statement:s1 PREFIX statement:s2 {:RESULT=s1+".startsWith("+s2+")";:}
-                        |statement:s1 SUFFIX statement:s2 {:RESULT=s1+".endsWith("+s2+")";:}
+
+conditional_statement ::= statement:s1 PREFIX statement:s2 {:RESULT="("+s1+")"+".startsWith("+s2+")";:}
+                        |statement:s1 SUFFIX statement:s2 {:RESULT="("+s1+")"+".endsWith("+s2+")";:}
                         |if_statement:is                    {:RESULT=is;:}
-                        |
+                        |                                   {:RESULT="";:}
                         ;
 
 
 
 
 
-expr ::= statement:st                                   {:RESULT=st;:}
-       | if_statement:is                              {:RESULT=is;:}
+expr ::= statement:st                          {:RESULT=st;:}
+       | if_statement:is                       {:RESULT=is;:}
        ;
 
 
-statement    ::=statement:s PLUS object:o              {:RESULT=s+"+"+o;:}
+statement    ::=statement:s PLUS object:o           {:RESULT=s+"+"+o;:}
             |object:o                               {:RESULT=o;:}
-            |LPAREN statement:e RPAREN                 {:RESULT="("+e+")";:}
+            |LPAREN statement:e RPAREN              {:RESULT="("+e+")";:}
             ;
 
-object ::=   IDENTIFIER:id                             {:RESULT=id;:}
-             |STRING:str                                {:RESULT=str;:}
-             |function_call:fc                          {:RESULT=fc;:}
+object ::=   IDENTIFIER:id                          {:RESULT=id;:}
+             |STRING:str                            {:RESULT=str;:}
+             |function_call:fc                      {:RESULT=fc;:}
              ;
 
 
