@@ -55,7 +55,7 @@ action code {:
  */
 
 /* Terminals (tokens returned by the scanner). */
-terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,LBRACKET,COMMA,PAR_RBRACKET;
+terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,LBRACKET,COMMA,PAR_RBRACKET,IF,ELSE;
 terminal            IDENTIFIER;        // our scanner provides numbers as integers
 
 /*  Non terminals */
@@ -91,32 +91,23 @@ function_decls ::= function_decls:fds function_decl:fd                          
                     ;
 
 
-function_decl ::=  IDENTIFIER:id LPAREN  parameters_decl:p PAR_RBRACKET statement:in  RBRACKET                      {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
+function_decl ::=  IDENTIFIER:id LPAREN  parameters_call:p PAR_RBRACKET statement:in  RBRACKET                      {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
                                                                                                                                             "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
 
- //                |IDENTIFIER:id LPAREN  parameters_decl:p RPAREN LBRACKET  statement:in                        {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
-    //                                                                                                                             "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
-//
-//                   |IDENTIFIER:id LPAREN  RPAREN LBRACKET  statement:in RBRACKET                       {:RESULT="\tpublic static String "+id+"("+")"+
-//                                                                                                                                "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
+
                    ;
+function_call ::=IDENTIFIER:id LPAREN parameters_call:p RPAREN {:RESULT=id+"("+p+")";:};
 
-
-parameters_decl  ::=parameters_decl:pd COMMA IDENTIFIER:id {:RESULT=(String)pd+(String)id;:}
-                    |IDENTIFIER:id {:RESULT=id;:}
-                    |
-                    ;
 
 
 parameters_call  ::= parameters_call:pc COMMA  statement:e   {:RESULT=pc+","+e;:}
-
                     |statement:e                              {:RESULT=e;:}
                     |
                     ;
 
 
 
-function_call ::=IDENTIFIER:id LPAREN parameters_decl:p RPAREN {:RESULT=id+"("+p+")";:};
+if_statement ::=
 
 
 

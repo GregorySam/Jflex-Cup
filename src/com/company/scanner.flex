@@ -80,6 +80,8 @@ string = [\"][[^\\\"]|\\.]*[\"]
 [)][ ]*[{]    { return symbol(sym.PAR_RBRACKET); }
 "+"      { return symbol(sym.PLUS); }
 ","       { return symbol(sym.COMMA); }
+"if"     { return symbol(sym.IF); }
+"else"   { return symbol(sym.ELSE); }
 
 {identifier} { return symbol(sym.IDENTIFIER, new String(yytext())); }
 
