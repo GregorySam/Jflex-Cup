@@ -1,5 +1,5 @@
 name()  {
-        k
+        "John"
     }
 
     surname() {
@@ -7,9 +7,10 @@ name()  {
     }
 
     fullname(first_name, sep, last_name) {
-        first_name+l+"po"
+        first_name
     }
-
+    name()
+    name(l,k,l,l)
 
 
 

@@ -55,7 +55,7 @@ action code {:
  */
 
 /* Terminals (tokens returned by the scanner). */
-terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,LBRACKET,COMMA,PAR_RBRACKET,PARAMETERS;
+terminal            PLUS,LPAREN, RPAREN,STRING,RBRACKET,LBRACKET,COMMA,PAR_RBRACKET;
 terminal            IDENTIFIER;        // our scanner provides numbers as integers
 
 /*  Non terminals */
@@ -75,11 +75,10 @@ non terminal            object;
  *  The Grammar Rules
  */
 
-precedence left IDENTIFIER;
 
-programme ::=function_decls:mb {:System.out.println("public class Main {\t\n"+mb+"\n"+"}");:};
+programme ::=main_body:mb {:System.out.println("public class Main {\t\n"+mb+"\n"+"}");:};
 
-main_body   ::= function_decl:fd function_calls:fcs   {:RESULT="\tpublic static void main(String[] args) {\n"+fcs+"\n"+"\t}\n"+fd;:};
+main_body   ::= function_decls:fd function_calls:fcs   {:RESULT="\tpublic static void main(String[] args) {\n"+fcs+"\n"+"\t}\n"+fd;:};
 
 function_calls ::= function_call:fc function_calls:fcs {:RESULT="\t\tSystem.out.println("+fc+");\n"+fcs;:}
                     |function_call:fc                  {:RESULT="\t\tSystem.out.println("+fc+");\n";:}
@@ -87,31 +86,37 @@ function_calls ::= function_call:fc function_calls:fcs {:RESULT="\t\tSystem.out.
 
 
 
-function_decls ::= function_decl:fd function_decls:fds                                                              {:RESULT=(String)fd+(String)fds;:}
+function_decls ::= function_decls:fds function_decl:fd                                                               {:RESULT=(String)fd+(String)fds;:}
+                    |function_decl:fd                                                                               {:RESULT=(String)fd;:}
+                    ;
+
+
+function_decl ::=  IDENTIFIER:id LPAREN  parameters_decl:p PAR_RBRACKET statement:in  RBRACKET                      {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
+                                                                                                                                            "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
+
+ //                |IDENTIFIER:id LPAREN  parameters_decl:p RPAREN LBRACKET  statement:in                        {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
+    //                                                                                                                             "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
+//
+//                   |IDENTIFIER:id LPAREN  RPAREN LBRACKET  statement:in RBRACKET                       {:RESULT="\tpublic static String "+id+"("+")"+
+//                                                                                                                                "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
+                   ;
+
+
+parameters_decl  ::=parameters_decl:pd COMMA IDENTIFIER:id {:RESULT=(String)pd+(String)id;:}
+                    |IDENTIFIER:id {:RESULT=id;:}
                     |
                     ;
 
 
-function_decl ::=  IDENTIFIER:id LPAREN  PARAMETERS:p RPAREN LBRACKET  statement:in RBRACKET                       {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)p)+")"+
-                                                                                                                                            "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
-
-                   |IDENTIFIER:id LPAREN  IDENTIFIER:pid RPAREN LBRACKET  statement:in RBRACKET                       {:RESULT="\tpublic static String "+id+"("+fun.SetStringInParameters((String)pid)+")"+
-                                                                                                                                 "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
-
-                   |IDENTIFIER:id LPAREN  RPAREN LBRACKET  statement:in RBRACKET                       {:RESULT="\tpublic static String "+id+"("+")"+
-                                                                                                                                "{\n"+"\t\t"+in+"\n"+"\t}\n";:}
-                   ;
-
-
-
-
 parameters_call  ::= parameters_call:pc COMMA  statement:e   {:RESULT=pc+","+e;:}
+
                     |statement:e                              {:RESULT=e;:}
+                    |
                     ;
 
 
 
-function_call ::=IDENTIFIER:id LPAREN parameters_call:p RPAREN {:RESULT=id+"("+p+")";:};
+function_call ::=IDENTIFIER:id LPAREN parameters_decl:p RPAREN {:RESULT=id+"("+p+")";:};
 
 
 
