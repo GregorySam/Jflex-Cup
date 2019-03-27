@@ -33,10 +33,10 @@ class Scanner implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\5\1\3\1\2\1\0\1\3\1\1\16\5\4\0\1\13\1\0"+
-    "\1\6\1\0\1\4\3\0\1\7\1\10\1\0\1\14\1\15\3\0"+
-    "\12\5\7\0\32\4\1\0\1\0\2\0\1\4\1\0\32\4\1\11"+
-    "\1\0\1\12\1\0\41\5\2\0\4\4\4\0\1\4\2\0\1\5"+
+    "\11\5\1\3\1\2\1\0\1\3\1\1\16\5\4\0\1\6\1\0"+
+    "\1\10\1\0\1\4\3\0\1\11\1\12\1\0\1\15\1\7\3\0"+
+    "\12\5\7\0\32\4\1\0\1\0\2\0\1\4\1\0\32\4\1\13"+
+    "\1\0\1\14\1\0\41\5\2\0\4\4\4\0\1\4\2\0\1\5"+
     "\7\0\1\4\4\0\1\4\5\0\27\4\1\0\37\4\1\0\u01ca\4"+
     "\4\0\14\4\16\0\5\4\7\0\1\4\1\0\1\4\21\0\160\5"+
     "\5\4\1\0\2\4\2\0\4\4\1\0\1\4\6\0\1\4\1\0"+
@@ -203,11 +203,12 @@ class Scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\2\2\1\3\1\1\1\4\1\5\1\6"+
-    "\1\7\1\10\1\11\1\0\1\12\1\13\1\0";
+    "\1\0\1\1\2\2\1\3\1\2\1\4\1\1\1\5"+
+    "\1\6\1\7\1\10\1\11\1\0\1\12\3\0\1\13"+
+    "\1\14\1\12\1\0\3\12";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[16];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -233,10 +234,12 @@ class Scanner implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\16\0\34\0\16\0\52\0\70\0\16\0\106"+
-    "\0\16\0\16\0\16\0\16\0\70\0\16\0\16\0\106";
+    "\0\16\0\124\0\16\0\16\0\16\0\142\0\160\0\176"+
+    "\0\70\0\106\0\16\0\16\0\214\0\160\0\232\0\250"+
+    "\0\266";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[16];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -260,12 +263,16 @@ class Scanner implements java_cup.runtime.Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\2\4\1\5\1\2\1\6\1\7\1\10"+
-    "\1\11\1\12\1\4\1\13\1\14\20\0\1\4\17\0"+
-    "\2\5\10\0\6\15\1\16\7\15\11\0\1\17\1\0"+
-    "\1\20\2\0";
+    "\1\11\1\12\1\13\1\14\1\15\20\0\1\4\17\0"+
+    "\2\5\1\16\1\17\12\0\1\20\1\0\1\21\7\0"+
+    "\10\22\1\23\5\22\13\0\1\24\10\0\1\16\1\17"+
+    "\12\0\1\25\1\0\1\26\13\0\2\20\1\16\1\17"+
+    "\12\0\2\25\1\27\1\17\12\0\1\30\1\0\1\27"+
+    "\1\17\12\0\2\30\1\31\13\0\1\30\1\0\1\31"+
+    "\7\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[84];
+    int [] result = new int[196];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -303,11 +310,12 @@ class Scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\1\1\1\11\2\1\1\11\1\1\4\11"+
-    "\1\0\2\11\1\0";
+    "\1\0\1\11\1\1\1\11\2\1\1\11\1\1\1\11"+
+    "\1\1\3\11\1\0\1\1\3\0\2\11\1\1\1\0"+
+    "\3\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[16];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -780,47 +788,51 @@ class Scanner implements java_cup.runtime.Scanner {
           case 1: 
             { throw new Error("Illegal character <"+yytext()+">");
             }
-          case 12: break;
+          case 13: break;
           case 2: 
             { /* just skip what was found, do nothing */
             }
-          case 13: break;
+          case 14: break;
           case 3: 
             { return symbol(sym.IDENTIFIER, new String(yytext()));
             }
-          case 14: break;
-          case 4: 
-            { return symbol(sym.LPAREN);
-            }
           case 15: break;
-          case 5: 
-            { return symbol(sym.RPAREN);
-            }
-          case 16: break;
-          case 6: 
-            { return symbol(sym.LBRACKET);
-            }
-          case 17: break;
-          case 7: 
-            { return symbol(sym.RBRACKET);
-            }
-          case 18: break;
-          case 8: 
-            { return symbol(sym.PLUS);
-            }
-          case 19: break;
-          case 9: 
+          case 4: 
             { return symbol(sym.COMMA);
             }
+          case 16: break;
+          case 5: 
+            { return symbol(sym.LPAREN);
+            }
+          case 17: break;
+          case 6: 
+            { return symbol(sym.RPAREN);
+            }
+          case 18: break;
+          case 7: 
+            { return symbol(sym.LBRACKET);
+            }
+          case 19: break;
+          case 8: 
+            { return symbol(sym.RBRACKET);
+            }
           case 20: break;
-          case 10: 
-            { return symbol(sym.STRING, new String(yytext()));
+          case 9: 
+            { return symbol(sym.PLUS);
             }
           case 21: break;
-          case 11: 
-            { return symbol(sym.PAR_RBRACKET);
+          case 10: 
+            { return symbol(sym.PARAMETERS, new String(yytext()));
             }
           case 22: break;
+          case 11: 
+            { return symbol(sym.STRING, new String(yytext()));
+            }
+          case 23: break;
+          case 12: 
+            { return symbol(sym.PAR_RBRACKET);
+            }
+          case 24: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

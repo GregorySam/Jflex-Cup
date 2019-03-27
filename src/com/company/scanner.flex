@@ -64,7 +64,8 @@ WhiteSpace     = {LineTerminator} | [ \t\f]
 
 identifier = [:jletter:] [:jletterdigit:]*
 
-
+parameter=   [ ]*{identifier}[ ]*
+parameters = {parameter},({parameter},)*({parameter})*
 
 string = [\"][[^\\\"]|\\.]*[\"]
 
@@ -76,13 +77,13 @@ string = [\"][[^\\\"]|\\.]*[\"]
 ")"      { return symbol(sym.RPAREN); }
 "{"      { return symbol(sym.LBRACKET); }
 "}"      { return symbol(sym.RBRACKET); }
-[)][" "]*[{]    { return symbol(sym.PAR_RBRACKET); }
+"){"    { return symbol(sym.PAR_RBRACKET); }
 "+"      { return symbol(sym.PLUS); }
 ","       { return symbol(sym.COMMA); }
 
 {identifier} { return symbol(sym.IDENTIFIER, new String(yytext())); }
 
-
+{parameters} {return symbol(sym.PARAMETERS, new String(yytext()));}
 
 {string}     { return symbol(sym.STRING, new String(yytext()));}
 

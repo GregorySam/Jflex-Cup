@@ -1,12 +1,15 @@
 name()  {
-        "John"
+        k
     }
 
-surname()   {
-    "Doe"
-}
+    surname() {
+        "Doe"
+    }
 
-fullname(first_name,k){
-    first_name + sep + last_name
-}
+    fullname(first_name, sep, last_name) {
+        first_name+l+"po"
+    }
+
+
+
 
