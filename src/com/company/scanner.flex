@@ -66,7 +66,7 @@ identifier = [:jletter:][:jletterdigit:]*
 
 
 parameter=   [ ]*{identifier}[ ]*
-parameters_decl = ({parameter},)*({parameter})*[)][ ]*[{]
+parameters_decl = ({parameter},)*({parameter})[)][ ]*[{] | [ ]*[)][ ]*[{]
 
 string = [\"][[^\\\"]|\\.]*[\"]
 
